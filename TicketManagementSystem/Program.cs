@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IEventRepository,EventRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<ITicketCategoryRepository, TicketCategoryRepository>();
 builder.Services.AddSingleton<ITicketManagementService,TicketManagementService>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 

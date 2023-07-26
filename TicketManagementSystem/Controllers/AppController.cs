@@ -25,5 +25,24 @@ namespace TicketManagementSystem.Controllers
             var orders = _service.GetOrderDTOs();
             return Ok(orders);
         }
+
+        [HttpPut("orders/{id}")]
+        public ActionResult<OrderDTO> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
+        {
+            Order order = _service.GetOrderById(id);
+            order.NumberOfTickets = orderPatchRequest.numberOfTickets;
+            if(order.TicketCategory.Description != orderPatchRequest.ticketType)
+            {
+                TicketCategory ticket = _service.GetTicketCategoryByEventIdAndDescription(order.TicketCategory.Event.Eventid, orderPatchRequest.ticketType);
+                ticket.Event = order.TicketCategory.Event;
+                order.TicketCategory = ticket;
+            }
+            
+            order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
+            var orderUpdated = _service.UpdateOrder(order);
+            return Ok(orderUpdated);
+        }
+
+        
     }
 }

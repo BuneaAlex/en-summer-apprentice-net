@@ -1,4 +1,6 @@
-﻿namespace TicketManagementSystem.Models.DTOs
+﻿using Microsoft.Extensions.Logging;
+
+namespace TicketManagementSystem.Models.DTOs
 {
     [Serializable]
     public record OrderDTO(int orderID,
@@ -10,6 +12,10 @@
     {
         public OrderDTO() : this(0, 0, new TicketCategoryDTO(), default, 0, 0.0f)
         {
+        }
+        public override string ToString()
+        {
+            return $"OrderID: {orderID}, EventID: {eventID}, TicketCategory: {ticketCategory}, OrderedAt: {orderedAt}, NumberOfTickets: {numberOfTickets}, TotalPrice: {totalPrice}";
         }
     }
 

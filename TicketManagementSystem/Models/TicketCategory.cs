@@ -18,4 +18,16 @@ public partial class TicketCategory
     public virtual Event? Event { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public override string ToString()
+    {
+        string eventInfo = Event != null ? $"Event: {Event.Name} (ID: {Event.Eventid}), " : "Event: null, ";
+
+        return $"TicketCategoryID: {TicketCategoryid}, " +
+               $"{eventInfo}" +
+               $"Description: {Description ?? "null"}, " +
+               $"NoAvailable: {NoAvailable}, " +
+               $"Price: {Price}, " +
+               $"OrderCount: {Orders.Count}";
+    }
 }

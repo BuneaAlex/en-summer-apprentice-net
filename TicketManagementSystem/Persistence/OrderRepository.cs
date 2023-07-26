@@ -32,15 +32,21 @@ namespace TicketManagementSystem.Persistence
         {
             return _dbcontext.Orders
                     .Include(o => o.TicketCategory)
+                        .ThenInclude(tc => tc.Event)
+                            .ThenInclude(ev => ev.Venue)
+                    .Include(o => o.TicketCategory)
+                        .ThenInclude(tc => tc.Event)
+                        .ThenInclude(ev => ev.EventType)
+                    .Include(o => o.Customer)
                     .Where(o => o.Orderid == id)
                     .First();
         }
 
         public Order Update(Order entity)
         {
-            var entry = _dbcontext.Update(entity);
+            _dbcontext.Update(entity);
             _dbcontext.SaveChanges();
-            return entry.Entity;
+            return entity;
         }
     }
 }
