@@ -26,7 +26,7 @@ namespace TicketManagementSystem.Controllers
             return Ok(orders);
         }
 
-        [HttpPut("orders/{id}")]
+        [HttpPatch("orders/{id}")]
         public ActionResult<OrderDTO> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
         {
             Order order = _service.GetOrderById(id);
