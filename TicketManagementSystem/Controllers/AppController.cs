@@ -27,9 +27,9 @@ namespace TicketManagementSystem.Controllers
         }
 
         [HttpPatch("orders/{id}")]
-        public ActionResult<OrderDTO> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
+        public async Task<ActionResult<OrderDTO>> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
         {
-            Order order = _service.GetOrderById(id);
+            Order order = await _service.GetOrderById(id);
 
             if(order != null)
             {
@@ -53,7 +53,7 @@ namespace TicketManagementSystem.Controllers
                 }
 
                 order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
-                var orderUpdated = _service.UpdateOrder(order);
+                var orderUpdated = await _service.UpdateOrder(order);
                 return Ok(orderUpdated);
             }
 
@@ -62,9 +62,9 @@ namespace TicketManagementSystem.Controllers
         }
 
         [HttpDelete("orders/{id}")]
-        public ActionResult<OrderDTO> DeleteOrder(int id)
+        public async Task<ActionResult<OrderDTO>> DeleteOrder(int id)
         {
-            var orderDeleted = _service.DeleteOrder(id);
+            var orderDeleted = await _service.DeleteOrder(id);
             if(orderDeleted != null)
                 return Ok(orderDeleted);
             return NotFound("Order does not exist!");

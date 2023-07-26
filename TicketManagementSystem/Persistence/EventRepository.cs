@@ -15,7 +15,7 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public Event Delete(int id)
+        public async Task<Event> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -30,12 +30,12 @@ namespace TicketManagementSystem.Persistence
                 
         }
 
-        public Event GetById(int id)
+        public async Task<Event> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Event Update(Event entity)
+        public async Task<Event> Update(Event entity)
         {
             throw new NotImplementedException();
         }

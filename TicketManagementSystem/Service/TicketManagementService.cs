@@ -38,16 +38,16 @@ namespace TicketManagementSystem.Service
 
         
 
-        public OrderDTO UpdateOrder(Order order)
+        public async Task<OrderDTO> UpdateOrder(Order order)
         {
-            Order orderUpdated = _orderRepository.Update(order);
+            Order orderUpdated = await _orderRepository.Update(order);
             OrderDTO orderDTO = _mapper.Map<OrderDTO>(orderUpdated);
             return orderDTO;
         }
 
-        public Order GetOrderById(int id)
+        public async Task<Order> GetOrderById(int id)
         {
-            return _orderRepository.GetById(id);
+            return await _orderRepository.GetById(id);
         }
 
         public TicketCategory GetTicketCategoryByEventIdAndDescription(int eventId, string description)
@@ -55,9 +55,9 @@ namespace TicketManagementSystem.Service
             return _ticketCategoryRepository.GetTicketCategoryByEventIdAndDescription(eventId,description);
         }
 
-        public OrderDTO DeleteOrder(int id)
+        public async Task<OrderDTO> DeleteOrder(int id)
         {
-            Order orderDeleted = _orderRepository.Delete(id);
+            Order orderDeleted = await _orderRepository.Delete(id);
             OrderDTO orderDTO = _mapper.Map<OrderDTO>(orderDeleted);
             return orderDTO;
         }

@@ -16,13 +16,13 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public Order Delete(int id)
+        public async Task<Order> Delete(int id)
         {
-            var order = GetById(id);
-            if(order != null)
+            var order = await GetById(id);
+            if (order != null)
             {
                 _dbcontext.Remove(order);
-                _dbcontext.SaveChanges();
+                await _dbcontext.SaveChangesAsync();
             }
             return order;
         }
@@ -34,24 +34,23 @@ namespace TicketManagementSystem.Persistence
                 .ToList();
         }
 
-        public Order GetById(int id)
+        public async Task<Order> GetById(int id)
         {
-            return _dbcontext.Orders
-                    .Include(o => o.TicketCategory)
-                        .ThenInclude(tc => tc.Event)
-                            .ThenInclude(ev => ev.Venue)
-                    .Include(o => o.TicketCategory)
-                        .ThenInclude(tc => tc.Event)
+            return await _dbcontext.Orders
+                .Include(o => o.TicketCategory)
+                    .ThenInclude(tc => tc.Event)
+                        .ThenInclude(ev => ev.Venue)
+                .Include(o => o.TicketCategory)
+                    .ThenInclude(tc => tc.Event)
                         .ThenInclude(ev => ev.EventType)
-                    .Include(o => o.Customer)
-                    .Where(o => o.Orderid == id)
-                    .FirstOrDefault();
+                .Include(o => o.Customer)
+                .FirstOrDefaultAsync(o => o.Orderid == id);
         }
 
-        public Order Update(Order entity)
+        public async Task<Order> Update(Order entity)
         {
             _dbcontext.Update(entity);
-            _dbcontext.SaveChanges();
+            await _dbcontext.SaveChangesAsync();
             return entity;
         }
     }

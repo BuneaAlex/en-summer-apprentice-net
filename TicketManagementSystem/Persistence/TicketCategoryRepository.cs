@@ -15,7 +15,7 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public TicketCategory Delete(int id)
+        public async Task<TicketCategory> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -25,12 +25,12 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public TicketCategory GetById(int id)
+        public async Task<TicketCategory> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public TicketCategory Update(TicketCategory entity)
+        public async Task<TicketCategory> Update(TicketCategory entity)
         {
             throw new NotImplementedException();
         }

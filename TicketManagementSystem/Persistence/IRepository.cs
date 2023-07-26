@@ -1,13 +1,14 @@
 ﻿using System.Linq.Expressions;
+using TicketManagementSystem.Models;
 
 namespace TicketManagementSystem.Persistence
 {
     public interface IRepository<T,ID> where T : class
     {
-        T GetById(ID id);
+        Task<T> GetById(ID id);
         IEnumerable<T> GetAll();
         void Add(T entity);
-        T Update(T entity);
-        T Delete(ID id);
+        Task<T> Update(T entity);
+        Task<T> Delete(ID id);
     }
 }
