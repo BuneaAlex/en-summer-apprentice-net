@@ -30,23 +30,33 @@ namespace TicketManagementSystem.Controllers
         public ActionResult<OrderDTO> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
         {
             Order order = _service.GetOrderById(id);
-            order.NumberOfTickets = orderPatchRequest.numberOfTickets;
-            if(order.TicketCategory.Description != orderPatchRequest.ticketType)
+
+            if(order != null)
             {
-                TicketCategory ticket = _service.GetTicketCategoryByEventIdAndDescription(order.TicketCategory.Event.Eventid, orderPatchRequest.ticketType);
-                ticket.Event = order.TicketCategory.Event;
-                order.TicketCategory = ticket;
+                order.NumberOfTickets = orderPatchRequest.numberOfTickets;
+                if (order.TicketCategory.Description != orderPatchRequest.ticketType)
+                {
+                    TicketCategory ticket = _service.GetTicketCategoryByEventIdAndDescription(order.TicketCategory.Event.Eventid, orderPatchRequest.ticketType);
+                    ticket.Event = order.TicketCategory.Event;
+                    order.TicketCategory = ticket;
+                }
+
+                order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
+                var orderUpdated = _service.UpdateOrder(order);
+                return Ok(orderUpdated);
             }
+
+            return NotFound("Order does not exist!");
             
-            order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
-            var orderUpdated = _service.UpdateOrder(order);
-            return Ok(orderUpdated);
         }
 
         [HttpDelete("orders/{id}")]
         public ActionResult<OrderDTO> DeleteOrder(int id)
         {
-            return Ok(_service.DeleteOrder(id));
+            var orderDeleted = _service.DeleteOrder(id);
+            if(orderDeleted != null)
+                return Ok(orderDeleted);
+            return NotFound("Order does not exist!");
         }
     }
 }

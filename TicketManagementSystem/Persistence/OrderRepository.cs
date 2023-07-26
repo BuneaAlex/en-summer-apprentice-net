@@ -45,7 +45,7 @@ namespace TicketManagementSystem.Persistence
                         .ThenInclude(ev => ev.EventType)
                     .Include(o => o.Customer)
                     .Where(o => o.Orderid == id)
-                    .First();
+                    .FirstOrDefault();
         }
 
         public Order Update(Order entity)
