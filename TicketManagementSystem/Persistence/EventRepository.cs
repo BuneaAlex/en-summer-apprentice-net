@@ -6,9 +6,9 @@ namespace TicketManagementSystem.Persistence
     public class EventRepository : IEventRepository
     {
         private readonly TicketManagementSystemContext _dbcontext;
-        public EventRepository()
+        public EventRepository(TicketManagementSystemContext dbcontext)
         {
-            _dbcontext = new TicketManagementSystemContext();
+            _dbcontext = dbcontext;
         }
         public void Add(Event entity)
         {

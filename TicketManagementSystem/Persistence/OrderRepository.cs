@@ -7,9 +7,9 @@ namespace TicketManagementSystem.Persistence
     {
 
         private readonly TicketManagementSystemContext _dbcontext;
-        public OrderRepository()
+        public OrderRepository(TicketManagementSystemContext dbcontext)
         {
-            _dbcontext = new TicketManagementSystemContext();
+            _dbcontext = dbcontext;
         }
         public void Add(Order entity)
         {

@@ -6,9 +6,9 @@ namespace TicketManagementSystem.Persistence
     public class TicketCategoryRepository : ITicketCategoryRepository
     {
         private readonly TicketManagementSystemContext _dbcontext;
-        public TicketCategoryRepository()
+        public TicketCategoryRepository(TicketManagementSystemContext dbcontext)
         {
-            _dbcontext = new TicketManagementSystemContext();
+            _dbcontext = dbcontext;
         }
         public void Add(TicketCategory entity)
         {
@@ -40,7 +40,6 @@ namespace TicketManagementSystem.Persistence
             var ticketCategory = _dbcontext.TicketCategories
                 .Include(t => t.Event)
                 .FirstOrDefault(t => t.Eventid == eventId && t.Description == description);
-            Console.WriteLine(ticketCategory);
             return ticketCategory;
         }
 

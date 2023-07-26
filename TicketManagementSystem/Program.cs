@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using TicketManagementSystem.Models;
 using TicketManagementSystem.Models.DTOs;
 using TicketManagementSystem.Persistence;
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<TicketManagementSystemContext, TicketManagementSystemContext>();
 builder.Services.AddTransient<IEventRepository,EventRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<ITicketCategoryRepository, TicketCategoryRepository>();
