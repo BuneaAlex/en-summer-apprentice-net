@@ -43,6 +43,10 @@ namespace TicketManagementSystem.Controllers
             return Ok(orderUpdated);
         }
 
-        
+        [HttpDelete("orders/{id}")]
+        public ActionResult<OrderDTO> DeleteOrder(int id)
+        {
+            return Ok(_service.DeleteOrder(id));
+        }
     }
 }

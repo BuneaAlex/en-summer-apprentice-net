@@ -57,7 +57,9 @@ namespace TicketManagementSystem.Service
 
         public OrderDTO DeleteOrder(int id)
         {
-            return null;
+            Order orderDeleted = _orderRepository.Delete(id);
+            OrderDTO orderDTO = _mapper.Map<OrderDTO>(orderDeleted);
+            return orderDTO;
         }
     }
 }

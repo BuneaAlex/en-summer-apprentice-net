@@ -18,7 +18,13 @@ namespace TicketManagementSystem.Persistence
 
         public Order Delete(int id)
         {
-            throw new NotImplementedException();
+            var order = GetById(id);
+            if(order != null)
+            {
+                _dbcontext.Remove(order);
+                _dbcontext.SaveChanges();
+            }
+            return order;
         }
 
         public IEnumerable<Order> GetAll()
