@@ -15,6 +15,11 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
+        public Event Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Event> GetAll()
         {
             return _dbcontext.Events
@@ -30,12 +35,7 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public void Remove(Event entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Event entity)
+        public Event Update(Event entity)
         {
             throw new NotImplementedException();
         }

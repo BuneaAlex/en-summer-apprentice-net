@@ -16,6 +16,11 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
+        public Order Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Order> GetAll()
         {
             return _dbcontext.Orders
@@ -25,17 +30,17 @@ namespace TicketManagementSystem.Persistence
 
         public Order GetById(int id)
         {
-            throw new NotImplementedException();
+            return _dbcontext.Orders
+                    .Include(o => o.TicketCategory)
+                    .Where(o => o.Orderid == id)
+                    .First();
         }
 
-        public void Remove(Order entity)
+        public Order Update(Order entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Order entity)
-        {
-            throw new NotImplementedException();
+            var entry = _dbcontext.Update(entity);
+            _dbcontext.SaveChanges();
+            return entry.Entity;
         }
     }
 }

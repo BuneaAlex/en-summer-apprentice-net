@@ -30,5 +30,12 @@ namespace TicketManagementSystem.Service
             List<OrderDTO> orderDtos = _mapper.Map<List<OrderDTO>>(orders);
             return orderDtos;
         }
+
+        public OrderDTO UpdateOrder(Order order)
+        {
+            Order orderUpdated = _orderRepository.Update(order);
+            OrderDTO orderDTO = _mapper.Map<OrderDTO>(orderUpdated);
+            return orderDTO;
+        }
     }
 }

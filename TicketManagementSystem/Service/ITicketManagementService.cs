@@ -7,5 +7,6 @@ namespace TicketManagementSystem.Service
     {
         List<Event> GetEvents();
         List<OrderDTO> GetOrderDTOs();
+        OrderDTO UpdateOrder(Order order);
     }
 }
