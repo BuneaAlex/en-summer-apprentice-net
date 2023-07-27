@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
+using TicketManagementSystem.Middleware;
 using TicketManagementSystem.Models;
 using TicketManagementSystem.Models.DTOs;
 using TicketManagementSystem.Persistence;
@@ -35,6 +36,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

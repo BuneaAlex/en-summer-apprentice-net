@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketManagementSystem.Models;
+using TicketManagementSystem.Exceptions;
 
 namespace TicketManagementSystem.Persistence
 {
@@ -40,6 +41,10 @@ namespace TicketManagementSystem.Persistence
             var ticketCategory = _dbcontext.TicketCategories
                 .Include(t => t.Event)
                 .FirstOrDefault(t => t.Eventid == eventId && t.Description == description);
+            if (ticketCategory == null)
+            {
+                throw new EntityNotFoundException("Ticket category does not exist!");
+            }
             return ticketCategory;
         }
 

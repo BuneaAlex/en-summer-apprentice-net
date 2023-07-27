@@ -33,33 +33,23 @@ namespace TicketManagementSystem.Controllers
         {
             Order order = await _service.GetOrderById(id);
             _logger.LogInformation(orderPatchRequest.ToString());
-            if(order != null)
+            
+            if (orderPatchRequest.numberOfTickets <= 0)
+                throw new ArgumentException("Number of tickets can't be 0 or negative");
+
+            order.NumberOfTickets = orderPatchRequest.numberOfTickets;
+
+            if (order.TicketCategory.Description != orderPatchRequest.ticketType)
             {
-                if (orderPatchRequest.numberOfTickets <= 0)
-                    return BadRequest("Number of tickets can't be 0 or negative");
-
-                order.NumberOfTickets = orderPatchRequest.numberOfTickets;
-
-                if (order.TicketCategory.Description != orderPatchRequest.ticketType)
-                {
-                    TicketCategory ticket = _service.GetTicketCategoryByEventIdAndDescription(order.TicketCategory.Event.Eventid, orderPatchRequest.ticketType);
-                    if(ticket!=null)
-                    {
-                        ticket.Event = order.TicketCategory.Event;
-                        order.TicketCategory = ticket;
-                    }
-                    else
-                    {
-                        return NotFound("Ticket Category does not exist!");
-                    }
-                }
-
-                order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
-                var orderUpdated = await _service.UpdateOrder(order);
-                return Ok(orderUpdated);
+                TicketCategory ticket = _service.GetTicketCategoryByEventIdAndDescription(order.TicketCategory.Event.Eventid, orderPatchRequest.ticketType);
+                ticket.Event = order.TicketCategory.Event;
+                order.TicketCategory = ticket;   
             }
 
-            return NotFound("Order does not exist!");
+            order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
+            var orderUpdated = await _service.UpdateOrder(order);
+            return Ok(orderUpdated);
+            
             
         }
 
@@ -69,7 +59,7 @@ namespace TicketManagementSystem.Controllers
             var orderDeleted = await _service.DeleteOrder(id);
             if(orderDeleted != null)
                 return Ok(orderDeleted);
-            return NotFound("Order does not exist!");
+            return NotFound();
         }
     }
 }

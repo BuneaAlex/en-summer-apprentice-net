@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TicketManagementSystem.Exceptions;
 using TicketManagementSystem.Models;
 
 namespace TicketManagementSystem.Persistence
@@ -19,11 +20,14 @@ namespace TicketManagementSystem.Persistence
         public async Task<Order> Delete(int id)
         {
             var order = await GetById(id);
-            if (order != null)
+            if (order == null)
             {
-                _dbcontext.Remove(order);
-                await _dbcontext.SaveChangesAsync();
+                throw new EntityNotFoundException(id,nameof(Order));
             }
+            
+            _dbcontext.Remove(order);
+            await _dbcontext.SaveChangesAsync();
+            
             return order;
         }
 
@@ -36,7 +40,7 @@ namespace TicketManagementSystem.Persistence
 
         public async Task<Order> GetById(int id)
         {
-            return await _dbcontext.Orders
+            var order = await _dbcontext.Orders
                 .Include(o => o.TicketCategory)
                     .ThenInclude(tc => tc.Event)
                         .ThenInclude(ev => ev.Venue)
@@ -45,6 +49,13 @@ namespace TicketManagementSystem.Persistence
                         .ThenInclude(ev => ev.EventType)
                 .Include(o => o.Customer)
                 .FirstOrDefaultAsync(o => o.Orderid == id);
+
+            if (order == null)
+            {
+                throw new EntityNotFoundException(id, nameof(Order));
+            }
+
+            return order;
         }
 
         public async Task<Order> Update(Order entity)
