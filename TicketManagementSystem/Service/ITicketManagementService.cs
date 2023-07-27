@@ -5,7 +5,12 @@ namespace TicketManagementSystem.Service
 {
     public interface ITicketManagementService
     {
-        List<Event> GetEvents();
-        List<OrderDTO> GetOrderDTOs();
+        Task<List<Event>> GetEvents();
+        Task<List<OrderDTO>> GetOrderDTOs();
+        Task<OrderDTO> UpdateOrder(Order order);
+        Task<Order> GetOrderById(int id);
+        TicketCategory GetTicketCategoryByEventIdAndDescription(int eventId, String description);
+
+        Task<OrderDTO> DeleteOrder(int id);
     }
 }

@@ -26,4 +26,19 @@ public partial class Event
     public virtual ICollection<TicketCategory> TicketCategories { get; set; } = new List<TicketCategory>();
 
     public virtual Venue? Venue { get; set; }
+
+    public override string ToString()
+    {
+        string eventTypeInfo = EventType != null ? $"EventType: {EventType.Name} (ID: {EventType.EventTypeid}), " : "EventType: null, ";
+        string venueInfo = Venue != null ? $"Venue: {Venue.Location} (ID: {Venue.Venueid}), " : "Venue: null, ";
+
+        return $"EventID: {Eventid}, " +
+               $"{eventTypeInfo}" +
+               $"{venueInfo}" +
+               $"Name: {Name ?? "null"}, " +
+               $"Description: {Description ?? "null"}, " +
+               $"StartDate: {StartDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "null"}, " +
+               $"EndDate: {EndDate?.ToString("yyyy-MM-dd HH:mm:ss") ?? "null"}, " +
+               $"Image: {Image ?? "null"}";
+    }
 }

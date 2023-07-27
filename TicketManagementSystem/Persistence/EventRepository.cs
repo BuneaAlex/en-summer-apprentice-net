@@ -6,16 +6,21 @@ namespace TicketManagementSystem.Persistence
     public class EventRepository : IEventRepository
     {
         private readonly TicketManagementSystemContext _dbcontext;
-        public EventRepository()
+        public EventRepository(TicketManagementSystemContext dbcontext)
         {
-            _dbcontext = new TicketManagementSystemContext();
+            _dbcontext = dbcontext;
         }
         public void Add(Event entity)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Event> GetAll()
+        public async Task<Event> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Event>> GetAll()
         {
             return _dbcontext.Events
                 .Include(e => e.EventType) // Include related EventType
@@ -25,17 +30,12 @@ namespace TicketManagementSystem.Persistence
                 
         }
 
-        public Event GetById(int id)
+        public async Task<Event> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(Event entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Event entity)
+        public async Task<Event> Update(Event entity)
         {
             throw new NotImplementedException();
         }

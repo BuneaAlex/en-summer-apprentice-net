@@ -20,4 +20,17 @@ public partial class Order
     public virtual Customer? Customer { get; set; }
 
     public virtual TicketCategory? TicketCategory { get; set; }
+
+    public override string ToString()
+    {
+        string customerInfo = Customer != null ? $"Customer: {Customer.CustomerName} (ID: {Customer.Customerid}), " : "Customer: null, ";
+        string ticketCategoryInfo = TicketCategory != null ? $"TicketCategory: {TicketCategory.GetType} (ID: {TicketCategory.TicketCategoryid}), " : "TicketCategory: null, ";
+
+        return $"OrderID: {Orderid}, " +
+               $"{customerInfo}" +
+               $"{ticketCategoryInfo}" +
+               $"NumberOfTickets: {NumberOfTickets}, " +
+               $"OrderedAt: {OrderedAt}, " +
+               $"TotalPrice: {TotalPrice}";
+    }
 }

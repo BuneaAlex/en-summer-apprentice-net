@@ -27,9 +27,12 @@ public partial class TicketManagementSystemContext : DbContext
 
     public virtual DbSet<Venue> Venues { get; set; }
 
+    IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-R4QCOGM;Initial Catalog=TicketManagementSystem;Integrated Security=True;TrustServerCertificate=True;encrypt=false;");
+        => optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
