@@ -13,10 +13,12 @@ namespace TicketManagementSystem.Controllers
     public class AppController : Controller
     {
         private readonly ITicketManagementService _service;
+        private readonly ILogger<AppController> _logger;
 
-        public AppController(ITicketManagementService service)
+        public AppController(ITicketManagementService service,ILogger<AppController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpGet("orders")]
@@ -30,7 +32,7 @@ namespace TicketManagementSystem.Controllers
         public async Task<ActionResult<OrderDTO>> UpdateOrder(int id, [FromBody] OrderPatchRequest orderPatchRequest)
         {
             Order order = await _service.GetOrderById(id);
-
+            _logger.LogInformation(orderPatchRequest.ToString());
             if(order != null)
             {
                 if (orderPatchRequest.numberOfTickets <= 0)

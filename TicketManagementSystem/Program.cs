@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NLog.Web;
 using TicketManagementSystem.Models;
 using TicketManagementSystem.Models.DTOs;
 using TicketManagementSystem.Persistence;
@@ -9,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+//Using dependecy injection for logger
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
