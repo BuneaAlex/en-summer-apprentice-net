@@ -20,11 +20,6 @@ namespace TicketManagementSystem.Persistence
         public async Task<Order> Delete(int id)
         {
             var order = await GetById(id);
-            if (order == null)
-            {
-                throw new EntityNotFoundException(id,nameof(Order));
-            }
-            
             _dbcontext.Remove(order);
             await _dbcontext.SaveChangesAsync();
             

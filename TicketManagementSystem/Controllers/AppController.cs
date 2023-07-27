@@ -57,9 +57,8 @@ namespace TicketManagementSystem.Controllers
         public async Task<ActionResult<OrderDTO>> DeleteOrder(int id)
         {
             var orderDeleted = await _service.DeleteOrder(id);
-            if(orderDeleted != null)
-                return Ok(orderDeleted);
-            return NotFound();
+            return Ok(orderDeleted);
+            
         }
     }
 }
