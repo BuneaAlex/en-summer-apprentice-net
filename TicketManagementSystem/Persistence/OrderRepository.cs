@@ -27,7 +27,7 @@ namespace TicketManagementSystem.Persistence
             return order;
         }
 
-        public IEnumerable<Order> GetAll()
+        public async Task<IEnumerable<Order>> GetAll()
         {
             return _dbcontext.Orders
                 .Include(o => o.TicketCategory)

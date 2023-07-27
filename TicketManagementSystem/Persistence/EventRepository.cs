@@ -20,7 +20,7 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Event> GetAll()
+        public async Task<IEnumerable<Event>> GetAll()
         {
             return _dbcontext.Events
                 .Include(e => e.EventType) // Include related EventType

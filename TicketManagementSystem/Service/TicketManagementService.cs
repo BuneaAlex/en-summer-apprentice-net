@@ -24,14 +24,14 @@ namespace TicketManagementSystem.Service
             _mapper = mapper;
         }
 
-        public List<Event> GetEvents()
+        public async Task<List<Event>> GetEvents()
         {
-            return _eventRepository.GetAll().ToList();
+            return (List<Event>)await _eventRepository.GetAll();
         }
 
-        public List<OrderDTO> GetOrderDTOs()
+        public async Task<List<OrderDTO>> GetOrderDTOs()
         {
-            List<Order> orders = _orderRepository.GetAll().ToList();
+            List<Order> orders = (List<Order>)await _orderRepository.GetAll();
             List<OrderDTO> orderDtos = _mapper.Map<List<OrderDTO>>(orders);
             return orderDtos;
         }

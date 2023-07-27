@@ -20,7 +20,7 @@ namespace TicketManagementSystem.Persistence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TicketCategory> GetAll()
+        public Task<IEnumerable<TicketCategory>> GetAll()
         {
             throw new NotImplementedException();
         }

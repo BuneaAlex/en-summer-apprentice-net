@@ -20,9 +20,9 @@ namespace TicketManagementSystem.Controllers
         }
 
         [HttpGet("orders")]
-        public ActionResult<List<OrderDTO>> GetOrders()
+        public async Task<ActionResult<List<OrderDTO>>> GetOrders()
         {
-            var orders = _service.GetOrderDTOs();
+            var orders = await _service.GetOrderDTOs();
             return Ok(orders);
         }
 
