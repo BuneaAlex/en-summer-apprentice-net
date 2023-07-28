@@ -9,6 +9,8 @@ using TicketManagementSystem.Models.DTOs;
 using TicketManagementSystem.Models;
 using TicketManagementSystem.Persistence;
 using TicketManagementSystem.Service;
+using TicketManagementSystem.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TMSUnitTests
 {
@@ -57,6 +59,22 @@ namespace TMSUnitTests
         }
 
         [TestMethod]
+        public async Task GetEvents_ReturnsEmptyListOfEvents()
+        {
+            // Arrange
+            List<Event> events = new List<Event>();
+            
+            _eventRepositoryMock.Setup(repo => repo.GetAll()).ReturnsAsync(events);
+
+            // Act
+            var result = await _ticketManagementService.GetEvents();
+
+            // Assert
+            Assert.AreEqual(0, result.Count);
+            CollectionAssert.AreEqual(events, result);
+        }
+
+        [TestMethod]
         public async Task GetOrderDTOs_ReturnsListOfOrderDTOs()
         {
             // Arrange
@@ -79,6 +97,24 @@ namespace TMSUnitTests
 
             // Assert
             Assert.AreEqual(2, result.Count);
+            CollectionAssert.AreEqual(orderDTOs, result);
+        }
+
+        [TestMethod]
+        public async Task GetOrderDTOs_ReturnsEmptyListOfOrderDTOs()
+        {
+            // Arrange
+            List<Order> orders = new List<Order>();
+            List<OrderDTO> orderDTOs = new List<OrderDTO>();
+            
+            _orderRepositoryMock.Setup(repo => repo.GetAll()).ReturnsAsync(orders);
+            _mapperMock.Setup(mapper => mapper.Map<List<OrderDTO>>(orders)).Returns(orderDTOs);
+
+            // Act
+            var result = await _ticketManagementService.GetOrderDTOs();
+
+            // Assert
+            Assert.AreEqual(0, result.Count);
             CollectionAssert.AreEqual(orderDTOs, result);
         }
 
@@ -115,6 +151,29 @@ namespace TMSUnitTests
 
             // Assert
             Assert.AreEqual(expectedOrder, result);
+        }
+
+        [TestMethod]
+        public async Task GetOrderById_NoOrderFound()
+        {
+            // Arrange
+            int orderId = 100;
+
+            _orderRepositoryMock.Setup(repo => repo.GetById(orderId)).ThrowsAsync(new EntityNotFoundException());
+
+            // Assert
+            await Assert.ThrowsExceptionAsync<EntityNotFoundException>(() => _ticketManagementService.GetOrderById(orderId));
+        }
+
+        [TestMethod]
+        public void GetTicketCategoryByEventIdAndDescription_ReturnsNoTicketCategory()
+        {
+            // Arrange
+
+            _ticketCategoryRepositoryMock.Setup(repo => repo.GetTicketCategoryByEventIdAndDescription(It.IsAny<int>(), It.IsAny<string>())).Throws(new EntityNotFoundException());
+
+            // Assert
+            Assert.ThrowsException<EntityNotFoundException>(() => _ticketManagementService.GetTicketCategoryByEventIdAndDescription(It.IsAny<int>(), It.IsAny<string>()));
         }
 
         [TestMethod]
