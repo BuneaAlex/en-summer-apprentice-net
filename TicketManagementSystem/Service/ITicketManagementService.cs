@@ -12,5 +12,7 @@ namespace TicketManagementSystem.Service
         TicketCategory GetTicketCategoryByEventIdAndDescription(int eventId, String description);
 
         Task<OrderDTO> DeleteOrder(int id);
+
+        Task<TicketCategory> UpdateTicketCategory(TicketCategory ticketCategory);
     }
 }

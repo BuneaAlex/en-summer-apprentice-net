@@ -48,6 +48,11 @@ namespace TicketManagementSystem.Middleware
                     message = ex.Message;
                     break;
 
+                case NotEnoughTicketsException ex:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    message = ex.Message;
+                    break;
+
                 default:
                     if(exception.Message.Contains("Invalid Token"))
                     {

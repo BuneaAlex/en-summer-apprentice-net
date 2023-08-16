@@ -33,7 +33,9 @@ namespace TicketManagementSystem.Persistence
 
         public async Task<TicketCategory> Update(TicketCategory entity)
         {
-            throw new NotImplementedException();
+            _dbcontext.Update(entity);
+            await _dbcontext.SaveChangesAsync();
+            return entity;
         }
 
         public TicketCategory GetTicketCategoryByEventIdAndDescription(int eventId, string description)

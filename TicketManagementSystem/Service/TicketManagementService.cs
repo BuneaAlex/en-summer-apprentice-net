@@ -59,7 +59,17 @@ namespace TicketManagementSystem.Service
         {
             Order orderDeleted = await _orderRepository.Delete(id);
             OrderDTO orderDTO = _mapper.Map<OrderDTO>(orderDeleted);
+            TicketCategory ticketCategory = orderDeleted.TicketCategory;
+            ticketCategory.NoAvailable += orderDeleted.NumberOfTickets;
+            _ticketCategoryRepository.Update(ticketCategory);
+
             return orderDTO;
+        }
+
+        public async Task<TicketCategory> UpdateTicketCategory(TicketCategory ticketCategory)
+        {
+            var ticketUpdated = await _ticketCategoryRepository.Update(ticketCategory);
+            return ticketUpdated;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text.Json;
 using TicketManagementSystem.Models;
 using TicketManagementSystem.Service;
 using TicketManagementSystem.Models.DTOs;
+using TicketManagementSystem.Exceptions;
 
 namespace TicketManagementSystem.Controllers
 {
@@ -37,7 +38,6 @@ namespace TicketManagementSystem.Controllers
             if (orderPatchRequest.numberOfTickets <= 0)
                 throw new ArgumentException("Number of tickets can't be 0 or negative");
 
-            order.NumberOfTickets = orderPatchRequest.numberOfTickets;
 
             if (order.TicketCategory.Description != orderPatchRequest.ticketType)
             {
@@ -45,6 +45,20 @@ namespace TicketManagementSystem.Controllers
                 ticket.Event = order.TicketCategory.Event;
                 order.TicketCategory = ticket;   
             }
+
+            var currentNumberOfTickets = order.NumberOfTickets;
+            var newNumberOfTickets = orderPatchRequest.numberOfTickets;
+            var differeceNumberOfTickets = currentNumberOfTickets - newNumberOfTickets;
+            if (differeceNumberOfTickets < 0)
+            {
+                if (order.TicketCategory.NoAvailable < -differeceNumberOfTickets)
+                    throw new NotEnoughTicketsException("Cannot update because there are not enough tickets left!");   
+            }
+            order.TicketCategory.NoAvailable += differeceNumberOfTickets;
+            await _service.UpdateTicketCategory(order.TicketCategory);
+
+            order.NumberOfTickets = newNumberOfTickets;
+
 
             order.TotalPrice = order.NumberOfTickets * order.TicketCategory.Price;
             var orderUpdated = await _service.UpdateOrder(order);
